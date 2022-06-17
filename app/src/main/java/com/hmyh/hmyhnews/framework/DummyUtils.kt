@@ -14,7 +14,7 @@ fun getNewList(): NewsListVO {
                         SourceVO("engadget", "Engadget"),
                         "Kris Holt",
                         "New York passes a bill to limit bitcoin mining",
-                        "https://www.engadget.com/new-york-cryptocurrency-bill-bitcoin-mining-climate-change-161126292.html",
+                        "New York lawmakers have passed a bill\\r\\n that would temporarily ban new bitcoin\\r\\n mining operations. Early on Friday, state senators voted 36-27 to pass the legislation. It's now bound for the desk of Governor Kathy Hochul, who will sign it into law or veto th…",
                         "https://s.yimg.com/os/creatr-uploaded-images/2021-05/a8217250-bdfa-11eb-bfc4-2663225cea83",
                         "https://s.yimg.com/os/creatr-uploaded-images/2021-05/a8217250-bdfa-11eb-bfc4-2663225cea83",
                         "2022-06-03T16:11:26Z",

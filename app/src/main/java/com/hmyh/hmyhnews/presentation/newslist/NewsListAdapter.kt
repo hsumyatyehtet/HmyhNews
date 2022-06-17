@@ -1,4 +1,4 @@
-package com.hmyh.news.presentation.newslist
+package com.hmyh.hmyhnews.presentation.newslist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ BaseRecyclerAdapter<NewsListViewHolder, ArticleListVO>(){
     }
 
     interface Delegate{
-        fun onTapNewsItem(author: String)
+        fun onTapNewsItem(author: com.hmyh.domain.ArticleListVO)
     }
 
 }

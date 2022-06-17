@@ -1,15 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tvAuthorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="News Detail"
-        android:layout_centerInParent="true"
-        android:textColor="@color/black"
-        android:textSize="20sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvNewsDetailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:text="Jay-Z and Jack Dorsey "
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_regular_3x"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/llNewsDetailAuthorContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvNewsDetailTitle"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNewsDetailAuthorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By Hmyh,"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/tvNewsDetailSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="CNN"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNewsDetailTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:text="Fri June 17, 2022"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_below="@+id/llNewsDetailAuthorContainer"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textSize="@dimen/text_small" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvImageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@+id/tvNewsDetailTime"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            app:cardElevation="@dimen/margin_small">
+
+            <ImageView
+                android:id="@+id/ivNewsDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvNewsDetailContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:text="Jay-Z and Jack Dorsey "
+            android:textColor="@color/colorSecondaryText"
+            android:layout_below="@+id/cvImageContainer"
+            android:textSize="@dimen/text_regular_2x"
+            android:layout_marginBottom="50dp"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -1,5 +1,10 @@
 package com.hmyh.domain
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class ArticleListVO(
 
     var source: SourceVO?=null,
@@ -18,4 +23,4 @@ data class ArticleListVO(
 
     var content: String?=null
 
-)
+):Parcelable

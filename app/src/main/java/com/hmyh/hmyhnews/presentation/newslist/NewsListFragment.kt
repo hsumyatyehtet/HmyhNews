@@ -1,4 +1,4 @@
-package com.hmyh.news.presentation.newslist
+package com.hmyh.hmyhnews.presentation.newslist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -57,7 +57,10 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
         binding.rvNewsList.adapter = mNewsListAdapter
     }
 
-    override fun onTapNewsItem(author: String) {
+    override fun onTapNewsItem(author: com.hmyh.domain.ArticleListVO) {
+
+
+
         findNavController().navigate(
             R.id.action_newsListFragment_to_newsDetailFragment,
             getBundleNewsDetail(author)
