@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/newsListFragment"
-        android:name="com.hmyh.news.presentation.newslist.NewsListFragment"
+        android:name="com.hmyh.hmyhnews.presentation.newslist.NewsListFragment"
         android:label="NewsListFragment"
         tools:layout="@layout/fragment_new_list" >
 
@@ -27,8 +27,11 @@
         android:label="NewsDetailFragment"
         tools:layout="@layout/fragment_news_detail" >
 
-        <argument android:name="news_author"
-            app:argType="string"/>
+<!--        <argument android:name="news_author"-->
+<!--            app:argType="string"/>-->
+
+        <argument android:name="news_article"
+            app:argType="com.hmyh.domain.ArticleListVO"/>
 
     </fragment>
 

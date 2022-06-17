@@ -1,4 +1,4 @@
-package com.hmyh.news.presentation.newslist
+package com.hmyh.hmyhnews.presentation.newslist
 
 import com.bumptech.glide.Glide
 import com.hmyh.domain.ArticleListVO
@@ -14,9 +14,7 @@ class NewsListViewHolder(
     init {
         itemView.setOnClickListener {
             mData?.let { articleVO->
-                articleVO.author?.let { author->
-                    delegate.onTapNewsItem(author)
-                }
+                delegate.onTapNewsItem(articleVO)
             }
         }
     }
