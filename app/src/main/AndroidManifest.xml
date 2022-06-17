@@ -12,7 +12,7 @@
         android:theme="@style/Theme.HmyhNews"
         tools:replace="android:allowBackup,icon,theme,label">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.HmyhNews.NoActionBar">

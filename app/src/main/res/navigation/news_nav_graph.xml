@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_nav_graph"
+    app:startDestination="@id/newsListFragment">
+
+    <fragment
+        android:id="@+id/newsListFragment"
+        android:name="com.hmyh.news.presentation.newslist.NewsListFragment"
+        android:label="NewsListFragment"
+        tools:layout="@layout/fragment_new_list" >
+
+        <action
+            android:id="@+id/action_newsListFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.hmyh.news.presentation.newsdetail.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail" >
+
+        <argument android:name="news_author"
+            app:argType="string"/>
+
+    </fragment>
+
+</navigation>
