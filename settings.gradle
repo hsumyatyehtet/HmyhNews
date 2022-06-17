@@ -10,3 +10,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Hmyh News"
 include ':app'
+include ':core'
