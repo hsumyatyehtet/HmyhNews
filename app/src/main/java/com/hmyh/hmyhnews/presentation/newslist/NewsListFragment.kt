@@ -22,8 +22,6 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
 
     private lateinit var mNewsListAdapter: NewsListAdapter
 
-    private var mArticleList: MutableList<ArticleListVO> = mutableListOf()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,11 +58,6 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
             }
         })
 
-//        mViewModel.getArticleList().observe(viewLifecycleOwner, Observer {
-//            it?.let { articleList->
-//                mNewsListAdapter.setNewData(articleList)
-//            }
-//        })
     }
 
     private fun setUpRecyclerView() {

@@ -1,57 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/margin_medium"
+    android:background="@color/white"
+    android:layout_marginHorizontal="@dimen/margin_medium"
+    android:layout_marginVertical="@dimen/margin_small"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="2dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvNewImageList"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="@dimen/margin_medium"
+        app:cardElevation="1dp">
 
         <ImageView
             android:id="@+id/ivNewsImageList"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="fitXY" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher" />
 
-        <TextView
-            android:id="@+id/tvNewsListTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivNewsImageList"
-            android:layout_marginTop="@dimen/margin_medium_2"
-            android:text="June 17, 2022"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="@dimen/text_regular"
-            android:layout_marginHorizontal="@dimen/margin_medium"/>
+    </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tvNewsListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvNewsListTime"
-            android:layout_marginHorizontal="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_2"
-            android:text="Jay-Z and Jack Dorsey "
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/text_regular_3x" />
+    <TextView
+        android:id="@+id/tvNewsListSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_toEndOf="@+id/cvNewImageList"
+        android:text="CNN"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_regular" />
 
-        <TextView
-            android:id="@+id/tvNewsListDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvNewsListTitle"
-            android:layout_marginTop="@dimen/margin_medium_2"
-            android:text="Jay-Z and Jack Dorsey Launch Bitcoin Academy for New Generation of Crypto Bros"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="@dimen/text_regular_2x"
-            android:layout_marginHorizontal="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium_2"/>
+    <TextView
+        android:id="@+id/tvNewsListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/cvNewImageList"
+        android:layout_below="@+id/tvNewsListSource"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Jay-Z and Jack Dorsey "
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/text_regular_2x" />
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvNewsListTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/cvNewImageList"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_below="@+id/tvNewsListTitle"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="June 17, 2022"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_small" />
 
-</com.google.android.material.card.MaterialCardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvNewsListTime"
+        android:background="@color/colorGrey200"
+        android:layout_marginTop="@dimen/margin_small"/>
+
+</RelativeLayout>

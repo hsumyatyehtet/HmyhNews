@@ -27,7 +27,8 @@ class NewsListViewHolder(
             .placeholder(R.drawable.dummy_image)
             .into(binding.ivNewsImageList)
 
+        binding.tvNewsListSource.text = data.source?.name ?: ""
         binding.tvNewsListTitle.text = data.title ?: ""
-        binding.tvNewsListDescription.text = data.description ?: ""
+     //   binding.tvNewsListDescription.text = data.description ?: ""
     }
 }

@@ -21,11 +21,7 @@ class NewListViewModel: ViewModel() {
     fun onUiReady() {
         mModel.loadNewsList(
             onSuccess = {
-//                Log.d("newList",it.toString())
-//                it.articleList.let {articleList->
-//                    mArticleList.addAll(articleList)
-//                    mNewsLiveData.postValue(mArticleList)
-//                }
+
             },
             onFailure = {
 
