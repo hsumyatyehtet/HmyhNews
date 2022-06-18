@@ -8,7 +8,7 @@ import com.hmyh.domain.ArticleListVO
 @Entity(tableName = "new_list")
 data class NewsListVO(
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     var newsId: Int = 0,
 
     @SerializedName("status")
@@ -18,6 +18,6 @@ data class NewsListVO(
     var totalResults: Long? = null,
 
     @SerializedName("articles")
-    var articleList: MutableList<ArticleListVO>?=null
+    var articleList: MutableList<ArticleListVO>? = null
 
 )

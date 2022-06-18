@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentNewListBinding
@@ -21,6 +22,8 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
     private lateinit var binding: FragmentNewListBinding
 
     private lateinit var mNewsListAdapter: NewsListAdapter
+
+    var isListEndReached = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +39,8 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
 
         setUpViewModel()
         setUpRecyclerView()
+        setUpListener()
+
         setUpOnUiReady()
         setUpDataObservation()
     }
@@ -46,6 +51,36 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
 
     private fun setUpViewModel(){
         mViewModel = ViewModelProviders.of(this)[NewListViewModel::class.java]
+    }
+
+    private fun setUpListener() {
+        binding.rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = binding.rvNewsList.layoutManager!!.childCount
+                val totalItemCount = binding.rvNewsList.layoutManager!!.itemCount
+                val pastVisibleItems = (binding.rvNewsList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+
+                if (visibleItemCount + pastVisibleItems < totalItemCount) {
+                    isListEndReached = false
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                    && (recyclerView.layoutManager as LinearLayoutManager)
+                        .findLastCompletelyVisibleItemPosition() == recyclerView.adapter!!.itemCount - 1
+                    && !isListEndReached
+                ) {
+                    isListEndReached = true
+                    mViewModel.loadMoreNewsList()
+                }
+            }
+        })
     }
 
     private fun setUpDataObservation() {

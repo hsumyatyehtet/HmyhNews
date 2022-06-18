@@ -6,10 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.hmyh.hmyhnews.domain.MetaVO
-import com.hmyh.hmyhnews.framework.network.response.BaseResponse
-import com.hmyh.hmyhnews.framework.network.response.DataResponse
-import com.hmyh.hmyhnews.framework.network.response.ErrorResponse
-import com.hmyh.hmyhnews.framework.network.response.MoreDataResponse
+import com.hmyh.hmyhnews.framework.network.response.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -56,7 +53,7 @@ fun <T : DataResponse<W>, W> Observable<T>.subscribeDataResponse(
         }, {
 
             it.handleError(failure)
-            Log.e("LOgin Error",failure.toString())
+            Log.e("LOgin Error", failure.toString())
 
         })
 }
@@ -65,9 +62,9 @@ fun <T : DataResponse<W>, W> Observable<T>.subscribeDataResponse(
 fun Completable.subscribeDBWithCompletable() {
     this.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe ({
+        .subscribe({
             Log.d("Database CRUD", "Operation is successful.")
-        },{
+        }, {
             Log.d("Database CRUD", "Operation is a failure")
         })
 }
@@ -115,7 +112,7 @@ private fun <T> DataResponse<T>?.processDataResponse(
             success.invoke(this.data)
         } else {
             failure(this.message)
-            Log.e("messageError",this.message)
+            Log.e("messageError", this.message)
         }
     } else {
         failure.invoke("Response Was Null")
@@ -130,6 +127,23 @@ private fun BaseResponse.processBaseResponse(success: (String) -> Unit, failure:
     }
 }
 
+//private fun <T, String> NewsApiErrorResponse<T>?.processNewsApiResponse(
+//    success: (T,kotlin.String) -> Unit,
+//    failure: (kotlin.String) -> Unit
+//){
+//    if (this != null){
+//        if (this.isResponseOk() && this.data != null && this.totalResults !=null){
+//            success.invoke(this.data, this.totalResults.toString())
+//        }
+//        else{
+//            failure(this.message)
+//        }
+//    }
+//    else{
+//        failure.invoke("Response Was Null")
+//    }
+//}
+
 fun Throwable.handleError(failure: (String) -> Unit) {
 
     if (this is HttpException) {
@@ -142,7 +156,7 @@ fun Throwable.handleError(failure: (String) -> Unit) {
             failure(errorResponse.message)
         }
 
-    } else if (this is java.io.IOException){
+    } else if (this is java.io.IOException) {
         this.message
         this.message?.let { Log.d("gallery error", it) }
         failure("No Internet Connection!")
@@ -153,15 +167,16 @@ fun Throwable.handleError(failure: (String) -> Unit) {
 }
 
 
-inline fun <T: Any> liveData(liveBlock: MutableLiveData<T>.() -> Unit): LiveData<T> {
-    return MutableLiveData<T>().apply{
+inline fun <T : Any> liveData(liveBlock: MutableLiveData<T>.() -> Unit): LiveData<T> {
+    return MutableLiveData<T>().apply {
         liveBlock()
     }
 }
+
 fun Disposable.disposeBy(bag: CompositeDisposable) = bag.add(this)
 
 fun onWait(millisec: Long, doOnNext: () -> Unit): Disposable {
-   return Observable.timer(millisec, TimeUnit.MILLISECONDS)
+    return Observable.timer(millisec, TimeUnit.MILLISECONDS)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe {

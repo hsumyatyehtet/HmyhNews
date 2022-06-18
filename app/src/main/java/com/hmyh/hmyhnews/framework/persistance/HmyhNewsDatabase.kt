@@ -9,7 +9,7 @@ import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.persistance.dao.NewsListDao
 import com.hmyh.hmyhnews.framework.persistance.typeconverter.ArticleListTypeConverter
 
-@Database(entities = [NewsListVO::class], version = 1, exportSchema = false)
+@Database(entities = [NewsListVO::class], version = 2, exportSchema = false)
 @TypeConverters(ArticleListTypeConverter::class)
 abstract class HmyhNewsDatabase : RoomDatabase() {
 
