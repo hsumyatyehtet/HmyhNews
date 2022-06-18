@@ -12,7 +12,7 @@ interface HmyhNewsModel {
         onFailure: (String)->Unit
     )
 
-    fun getNewVO(): LiveData<NewsListVO>
+    fun getNewVO(): LiveData<List<NewsListVO>>
 
     fun loadMoreNewList(
         url: String,

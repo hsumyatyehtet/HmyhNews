@@ -44,7 +44,7 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
 
     }
 
-    override fun getNewVO(): LiveData<NewsListVO> {
+    override fun getNewVO(): LiveData<List<NewsListVO>> {
         return mDatabase.newListDao().getNew()
     }
 

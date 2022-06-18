@@ -16,7 +16,7 @@ class NewListViewModel : ViewModel() {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
-    private var mNew: LiveData<NewsListVO> = mModel.getNewVO()
+    private var mNew: LiveData<List<NewsListVO>> = mModel.getNewVO()
 
     private var mErrorMessage: MutableLiveData<String> = MutableLiveData<String>()
     private var mErrorMessageMore: MutableLiveData<String> = MutableLiveData<String>()
@@ -75,7 +75,7 @@ class NewListViewModel : ViewModel() {
         }
     }
 
-    fun getNew(): LiveData<NewsListVO> {
+    fun getNew(): LiveData<List<NewsListVO>> {
         return mNew
     }
 

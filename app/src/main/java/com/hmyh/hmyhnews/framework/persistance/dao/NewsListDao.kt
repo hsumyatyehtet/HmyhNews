@@ -15,6 +15,6 @@ interface NewsListDao {
     fun insertNewData(newsListVO: NewsListVO): Completable
 
     @Query("SELECT * from new_list")
-    fun getNew(): LiveData<NewsListVO>
+    fun getNew(): LiveData<List<NewsListVO>>
 
 }

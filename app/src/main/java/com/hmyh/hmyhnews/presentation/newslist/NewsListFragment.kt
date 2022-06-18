@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentNewListBinding
+import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.presentation.BaseFragment
 import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
@@ -92,9 +94,27 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
 
         mViewModel.getNew().observe(viewLifecycleOwner, Observer {
             it?.let { news ->
-                news.articleList?.let { articleList ->
-                    mNewsListAdapter.setNewData(articleList)
+
+                var mNewsList: MutableList<NewsListVO> = mutableListOf()
+                var mArticleList: MutableList<ArticleListVO> = mutableListOf()
+
+                mNewsList.addAll(news.distinctBy { it.newsId })
+
+                mNewsList.forEach { news->
+                    news.articleList?.let { article->
+                        mArticleList.addAll(article.distinctBy { it.description })
+                    }
                 }
+
+                mNewsListAdapter.setNewData(mArticleList)
+
+//                news.articleList?.let { articleList ->
+//                    var mArticleList: MutableList<ArticleListVO> = mutableListOf()
+//                    mArticleList.addAll(articleList.distinctBy { article->
+//                        article.description
+//                    })
+//                    mNewsListAdapter.setNewData(mArticleList)
+//                }
             }
         })
 
@@ -137,7 +157,9 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
                     mErrorMessageMore = "maximumResultsReached"
                 }
 
-                Toast.makeText(context,mErrorMessageMore,Toast.LENGTH_SHORT).show()
+                if (errorMessageMore !=""){
+                    Toast.makeText(context,mErrorMessageMore,Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
