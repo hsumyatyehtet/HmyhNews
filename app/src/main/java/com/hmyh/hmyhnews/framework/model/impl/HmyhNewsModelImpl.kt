@@ -1,6 +1,7 @@
 package com.hmyh.hmyhnews.framework.model.impl
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.model.BaseAppModel
 import com.hmyh.hmyhnews.framework.model.HmyhNewsModel
@@ -31,6 +32,10 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
 
             })
 
+    }
+
+    override fun getNewVO(): LiveData<NewsListVO> {
+        return mDatabase.newListDao().getNew()
     }
 
 }

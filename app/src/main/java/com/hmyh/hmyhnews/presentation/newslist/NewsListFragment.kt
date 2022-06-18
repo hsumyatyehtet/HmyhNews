@@ -52,11 +52,19 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
 
     private fun setUpDataObservation() {
 
-        mViewModel.getArticleList().observe(viewLifecycleOwner, Observer {
-            it?.let { articleList->
-                mNewsListAdapter.setNewData(articleList)
+        mViewModel.getNew().observe(viewLifecycleOwner, Observer {
+            it?.let { news->
+                news.articleList?.let { articleList->
+                    mNewsListAdapter.setNewData(articleList)
+                }
             }
         })
+
+//        mViewModel.getArticleList().observe(viewLifecycleOwner, Observer {
+//            it?.let { articleList->
+//                mNewsListAdapter.setNewData(articleList)
+//            }
+//        })
     }
 
     private fun setUpRecyclerView() {
@@ -67,9 +75,6 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
     }
 
     override fun onTapNewsItem(author: com.hmyh.domain.ArticleListVO) {
-
-
-
         findNavController().navigate(
             R.id.action_newsListFragment_to_newsDetailFragment,
             getBundleNewsDetail(author)
