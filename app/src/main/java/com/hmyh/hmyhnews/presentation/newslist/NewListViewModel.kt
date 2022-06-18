@@ -9,6 +9,8 @@ import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.model.HmyhNewsModel
 import com.hmyh.hmyhnews.framework.model.impl.HmyhNewsModelImpl
 import com.hmyh.hmyhnews.framework.util.BASE_URL
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class NewListViewModel : ViewModel() {
 
@@ -42,7 +44,10 @@ class NewListViewModel : ViewModel() {
                 }
             },
             onFailure = {
-                mErrorMessage.postValue(it)
+                GlobalScope.launch {
+                    mErrorMessage.postValue(it)
+                }
+
             }
         )
     }
@@ -50,15 +55,22 @@ class NewListViewModel : ViewModel() {
     fun loadMoreNewsList() {
         if (mPage.toLong() < mTotalPage) {
             mPage++
-            progressLiveData.postValue(1)
+            GlobalScope.launch {
+                progressLiveData.postValue(1)
+            }
             mModel.loadMoreNewList(BASE_URL,
                 mPage, mPageSize,
                 onSuccess = { newList ->
-                    progressLiveData.postValue(0)
+                    GlobalScope.launch {
+                        progressLiveData.postValue(0)
+                    }
                 },
                 onFailure = {
-                    progressLiveData.postValue(0)
-                    mErrorMessageMore.postValue(it)
+                    GlobalScope.launch {
+                        progressLiveData.postValue(0)
+                        mErrorMessageMore.postValue(it)
+                    }
+
                 })
         }
     }
