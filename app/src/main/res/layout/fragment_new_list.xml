@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGrey50">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rlToolBar"
@@ -20,11 +19,19 @@
 
     </RelativeLayout>
 
+    <View
+        android:id="@+id/viewDividerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rlToolBar"
+        android:background="@color/colorGrey200"
+        android:layout_marginTop="@dimen/margin_small"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNewsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlToolBar"
+        android:layout_below="@+id/viewDividerToolbar"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginHorizontal="@dimen/margin_medium" />
 
