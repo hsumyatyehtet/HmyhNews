@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorGrey50">
 
     <RelativeLayout
         android:id="@+id/rlToolBar"
@@ -14,8 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="News"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_regular_2x"/>
+            android:textColor="@color/colorTitleBlue"
+            android:textSize="@dimen/text_heading_1x"/>
 
     </RelativeLayout>
 
