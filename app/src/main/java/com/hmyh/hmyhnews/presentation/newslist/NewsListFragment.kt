@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmyh.domain.ArticleListVO
@@ -15,6 +17,7 @@ import com.hmyh.news.framework.getNewList
 
 class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
 
+    private lateinit var mViewModel: NewListViewModel
     private lateinit var binding: FragmentNewListBinding
 
     private lateinit var mNewsListAdapter: NewsListAdapter
@@ -33,21 +36,27 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpDataObservation()
+        setUpViewModel()
         setUpRecyclerView()
-        setUpData()
+        setUpOnUiReady()
+        setUpDataObservation()
     }
 
-    private fun setUpData() {
-        mNewsListAdapter.setNewData(mArticleList)
+    private fun setUpOnUiReady() {
+        mViewModel.onUiReady()
+    }
+
+    private fun setUpViewModel(){
+        mViewModel = ViewModelProviders.of(this)[NewListViewModel::class.java]
     }
 
     private fun setUpDataObservation() {
-        var mNews = getNewList()
 
-        mNews.articleList?.let { articleList ->
-            mArticleList = articleList
-        }
+        mViewModel.getArticleList().observe(viewLifecycleOwner, Observer {
+            it?.let { articleList->
+                mNewsListAdapter.setNewData(articleList)
+            }
+        })
     }
 
     private fun setUpRecyclerView() {
