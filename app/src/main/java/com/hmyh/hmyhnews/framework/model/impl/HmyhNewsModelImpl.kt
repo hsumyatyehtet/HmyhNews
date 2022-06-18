@@ -15,11 +15,12 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
 
     @SuppressLint("CheckResult")
     override fun loadNewsList(
+        mPageSize: Int,
         onSuccess: (newsListVO: NewsListVO) -> Unit,
         onFailure: (String) -> Unit
     ) {
 
-        mApi.loadNewsList(QUARY_DATA, API_KEY_DATA).subscribeOn(
+        mApi.loadNewsList(QUARY_DATA, API_KEY_DATA,mPageSize).subscribeOn(
             Schedulers.io()
         )
             .observeOn(AndroidSchedulers.mainThread())

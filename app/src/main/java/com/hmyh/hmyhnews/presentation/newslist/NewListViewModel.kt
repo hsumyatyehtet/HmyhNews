@@ -9,19 +9,22 @@ import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.model.HmyhNewsModel
 import com.hmyh.hmyhnews.framework.model.impl.HmyhNewsModelImpl
 
-class NewListViewModel: ViewModel() {
+class NewListViewModel : ViewModel() {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
     private val mNew: LiveData<NewsListVO> = mModel.getNewVO()
 
-    private var mArticleList: MutableList<ArticleListVO> = mutableListOf()
-    private var mNewsLiveData = MutableLiveData<MutableList<ArticleListVO>>()
+    private var mTotalResult: Long? = null
+    private var mPageSize: Int=50
 
     fun onUiReady() {
         mModel.loadNewsList(
+            mPageSize,
             onSuccess = {
-
+                it.totalResults?.let { totalResult ->
+                    mTotalResult = totalResult
+                }
             },
             onFailure = {
 
@@ -29,13 +32,12 @@ class NewListViewModel: ViewModel() {
         )
     }
 
-    fun getNew(): LiveData<NewsListVO>{
+    fun loadMoreNewsList(){
+
+    }
+
+    fun getNew(): LiveData<NewsListVO> {
         return mNew
     }
-
-    fun getArticleList(): MutableLiveData<MutableList<ArticleListVO>>{
-        return mNewsLiveData
-    }
-
 
 }

@@ -12,6 +12,8 @@ const val QUARY_DATA="bitcoin"
 //PARAM
 const val PARAM_API_KEY="apiKey"
 const val PARAM_QUERY="q"
+const val PARAM_PAGE_SIZE="pageSize"
+const val PARAM_PAGE="page"
 
 
 class ApiConstants {

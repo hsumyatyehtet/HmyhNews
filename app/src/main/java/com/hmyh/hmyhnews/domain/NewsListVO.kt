@@ -8,7 +8,7 @@ import com.hmyh.domain.ArticleListVO
 @Entity(tableName = "new_list")
 data class NewsListVO(
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     var newsId: Int = 0,
 
     @SerializedName("status")
