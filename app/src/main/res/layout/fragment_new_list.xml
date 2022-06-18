@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGrey100">
+    android:layout_height="match_parent">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/rvNewsList"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginHorizontal="@dimen/margin_medium"/>
+    <RelativeLayout
+        android:id="@+id/rlToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="News"
+            android:textColor="@color/colorTitleBlue"
+            android:textSize="@dimen/text_heading_1x"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/viewDividerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rlToolBar"
+        android:background="@color/colorGrey200"
+        android:layout_marginTop="@dimen/margin_small"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNewsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewDividerToolbar"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/llNoResultContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/no_result"/>
+
+        <TextView
+            android:id="@+id/tvErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Results"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/text_heading_1x"
+            android:textColor="@color/colorSecondaryText"
+            android:paddingVertical="@dimen/margin_small"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

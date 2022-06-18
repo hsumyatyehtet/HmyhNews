@@ -1,13 +1,13 @@
 package com.hmyh.news.framework
 
 import com.hmyh.domain.ArticleListVO
-import com.hmyh.domain.NewsListVO
+import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.domain.SourceVO
 
 
 fun getNewList(): NewsListVO {
     return (
-            NewsListVO(
+            NewsListVO(0,
                 "ok", 14474,
                 mutableListOf(
                     ArticleListVO(

@@ -1,11 +1,23 @@
-package com.hmyh.domain
+package com.hmyh.hmyhnews.domain
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+import com.hmyh.domain.ArticleListVO
+
+@Entity(tableName = "new_list")
 data class NewsListVO(
 
-    var status: String?=null,
+    @PrimaryKey(autoGenerate = true)
+    var newsId: Int = 0,
 
-    var totalResults: Long?=null,
+    @SerializedName("status")
+    var status: String? = null,
 
-    var articleList: MutableList<ArticleListVO>
+    @SerializedName("totalResults")
+    var totalResults: Long? = null,
+
+    @SerializedName("articles")
+    var articleList: MutableList<ArticleListVO>? = null
 
 )
