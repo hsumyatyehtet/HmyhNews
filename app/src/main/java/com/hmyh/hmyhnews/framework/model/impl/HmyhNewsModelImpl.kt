@@ -36,6 +36,9 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                     mDatabase.newListDao().insertNewData(newListVO).subscribeDBWithCompletable()
                 }
             }, {
+                it.message?.let { errorMessage->
+                    onFailure(errorMessage)
+                }
 
             })
 
@@ -68,17 +71,18 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                             mDatabase.newListDao().insertNewData(newListVo).subscribeDBWithCompletable()
                         }
                         else{
-
+                            onFailure("error")
                         }
 
                     }
-                },{
-
+                },
+                {
+                    it.message?.let { it1 ->
+                       onFailure(it1)
+                    }
                 }
             )
-
-
-
     }
+
 
 }

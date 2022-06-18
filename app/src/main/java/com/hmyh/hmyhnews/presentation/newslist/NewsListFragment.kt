@@ -1,9 +1,11 @@
 package com.hmyh.hmyhnews.presentation.newslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentNewListBinding
+import com.hmyh.hmyhnews.presentation.BaseFragment
 import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
+import com.kaopiz.kprogresshud.KProgressHUD
 
-class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
+class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
 
     private lateinit var mViewModel: NewListViewModel
     private lateinit var binding: FragmentNewListBinding
@@ -49,19 +53,20 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
         mViewModel.onUiReady()
     }
 
-    private fun setUpViewModel(){
+    private fun setUpViewModel() {
         mViewModel = ViewModelProviders.of(this)[NewListViewModel::class.java]
     }
 
     private fun setUpListener() {
-        binding.rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        binding.rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val visibleItemCount = binding.rvNewsList.layoutManager!!.childCount
                 val totalItemCount = binding.rvNewsList.layoutManager!!.itemCount
-                val pastVisibleItems = (binding.rvNewsList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                val pastVisibleItems =
+                    (binding.rvNewsList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
                 if (visibleItemCount + pastVisibleItems < totalItemCount) {
                     isListEndReached = false
@@ -86,10 +91,53 @@ class NewsListFragment : Fragment(), NewsListAdapter.Delegate {
     private fun setUpDataObservation() {
 
         mViewModel.getNew().observe(viewLifecycleOwner, Observer {
-            it?.let { news->
-                news.articleList?.let { articleList->
+            it?.let { news ->
+                news.articleList?.let { articleList ->
                     mNewsListAdapter.setNewData(articleList)
                 }
+            }
+        })
+
+        mViewModel.getShowOrHideProgress().observe(viewLifecycleOwner, Observer {
+            it?.let { data ->
+                if (data == 1) {
+                    showProgressDialog()
+                } else {
+                    hideProgressDialog()
+                }
+            }
+        })
+
+        mViewModel.getErrorMessage().observe(viewLifecycleOwner, Observer {
+            it?.let { errorMessage ->
+
+                var mErrorMessage: String = ""
+
+                if (errorMessage.contains("HTTP 429") || errorMessage.contains("HTTP 426")) {
+                    mErrorMessage = "rateLimited"
+                }
+
+                if (mErrorMessage!=""){
+                    binding.rvNewsList.visibility = View.GONE
+                    binding.llNoResultContainer.visibility = View.VISIBLE
+                    binding.tvErrorMessage.text = mErrorMessage
+                }
+                else{
+                    binding.rvNewsList.visibility = View.VISIBLE
+                    binding.llNoResultContainer.visibility = View.GONE
+                }
+
+            }
+        })
+
+        mViewModel.getErrorMessageMore().observe(viewLifecycleOwner, Observer {
+            it?.let { errorMessageMore ->
+                var mErrorMessageMore: String = ""
+                if (errorMessageMore.contains("HTTP 429") || errorMessageMore.contains("HTTP 426")) {
+                    mErrorMessageMore = "maximumResultsReached"
+                }
+
+                Toast.makeText(context,mErrorMessageMore,Toast.LENGTH_SHORT).show()
             }
         })
 

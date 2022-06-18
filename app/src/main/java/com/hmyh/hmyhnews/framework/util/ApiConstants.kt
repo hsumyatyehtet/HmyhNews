@@ -6,7 +6,13 @@ const val BASE_URL="https://newsapi.org"
 const val GET_NEW_LIST="/v2/everything"
 
 //data
-const val API_KEY_DATA="5a5f48188a5248c38370532e26eb4c55"
+
+//hsumyatyehtet
+//const val API_KEY_DATA="5a5f48188a5248c38370532e26eb4c55"
+
+//limmphyo
+const val API_KEY_DATA="6197ff3b80e04ee386a9f5eff9787002"
+
 const val QUARY_DATA="bitcoin"
 
 //PARAM

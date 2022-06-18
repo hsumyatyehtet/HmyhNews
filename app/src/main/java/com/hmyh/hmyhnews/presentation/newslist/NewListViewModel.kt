@@ -14,13 +14,18 @@ class NewListViewModel : ViewModel() {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
-    private val mNew: LiveData<NewsListVO> = mModel.getNewVO()
+    private var mNew: LiveData<NewsListVO> = mModel.getNewVO()
+
+    private var mErrorMessage: MutableLiveData<String> = MutableLiveData<String>()
+    private var mErrorMessageMore: MutableLiveData<String> = MutableLiveData<String>()
 
     private var mTotalResult: Long? = null
     private var mPageSize: Int = 50
 
     private var mTotalPage: Long = 0
     private var mPage: Int = 1
+
+    private var progressLiveData: MutableLiveData<Int> = MutableLiveData<Int>()
 
     fun onUiReady() {
         mModel.loadNewsList(
@@ -37,7 +42,7 @@ class NewListViewModel : ViewModel() {
                 }
             },
             onFailure = {
-
+                mErrorMessage.postValue(it)
             }
         )
     }
@@ -45,18 +50,33 @@ class NewListViewModel : ViewModel() {
     fun loadMoreNewsList() {
         if (mPage.toLong() < mTotalPage) {
             mPage++
+            progressLiveData.postValue(1)
             mModel.loadMoreNewList(BASE_URL,
-                mPage, mPageSize, onSuccess = {newList->
-
+                mPage, mPageSize,
+                onSuccess = { newList ->
+                    progressLiveData.postValue(0)
                 },
                 onFailure = {
-
+                    progressLiveData.postValue(0)
+                    mErrorMessageMore.postValue(it)
                 })
         }
     }
 
     fun getNew(): LiveData<NewsListVO> {
         return mNew
+    }
+
+    fun getErrorMessage(): MutableLiveData<String>{
+       return mErrorMessage
+    }
+
+    fun getErrorMessageMore(): MutableLiveData<String>{
+        return mErrorMessageMore
+    }
+
+    fun getShowOrHideProgress(): MutableLiveData<Int> {
+        return progressLiveData
     }
 
 }
