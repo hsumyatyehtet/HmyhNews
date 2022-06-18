@@ -1,7 +1,7 @@
 package com.hmyh.hmyhnews.framework.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.hmyh.hmyhnews.framework.domain.MetaVO
+import com.hmyh.hmyhnews.domain.MetaVO
 
 
 /**

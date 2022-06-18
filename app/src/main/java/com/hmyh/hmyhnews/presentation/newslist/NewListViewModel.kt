@@ -1,13 +1,9 @@
 package com.hmyh.hmyhnews.presentation.newslist
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hmyh.domain.ArticleListVO
-import com.hmyh.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.model.HmyhNewsModel
 import com.hmyh.hmyhnews.framework.model.impl.HmyhNewsModelImpl
 

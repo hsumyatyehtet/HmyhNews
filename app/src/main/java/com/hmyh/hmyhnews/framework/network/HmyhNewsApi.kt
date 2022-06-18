@@ -1,6 +1,6 @@
 package com.hmyh.hmyhnews.framework.network
 
-import com.hmyh.domain.NewsListVO
+import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.util.GET_NEW_LIST
 import com.hmyh.hmyhnews.framework.util.PARAM_API_KEY
 import com.hmyh.hmyhnews.framework.util.PARAM_QUERY

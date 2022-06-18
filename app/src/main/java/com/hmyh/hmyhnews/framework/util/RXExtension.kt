@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.hmyh.hmyhnews.framework.domain.MetaVO
+import com.hmyh.hmyhnews.domain.MetaVO
 import com.hmyh.hmyhnews.framework.network.response.BaseResponse
 import com.hmyh.hmyhnews.framework.network.response.DataResponse
 import com.hmyh.hmyhnews.framework.network.response.ErrorResponse

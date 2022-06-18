@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.hmyh.hmyhnews.BuildConfig
 import com.hmyh.hmyhnews.framework.network.HmyhNewsApi
+import com.hmyh.hmyhnews.framework.persistance.HmyhNewsDatabase
 import com.hmyh.hmyhnews.framework.util.ApiConstants
 import com.hmyh.hmyhnews.framework.util.BASE_URL
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -16,14 +17,15 @@ import java.util.concurrent.TimeUnit
 abstract class BaseAppModel: BaseModel() {
 
     protected lateinit var mApi: HmyhNewsApi
+    protected lateinit var mDatabase: HmyhNewsDatabase
 
     override fun init(context: Context) {
         initNetwork(context)
-      //  initDatabase(context)
+        initDatabase(context)
     }
 
     private fun initDatabase(context: Context) {
-        //mDatabase = HmyhAssignmentThreeDatabase.getDatabase(context)
+        mDatabase = HmyhNewsDatabase.getDatabase(context)
     }
 
     private fun initNetwork(context: Context) {

@@ -1,6 +1,10 @@
 package com.hmyh.domain
 
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -8,6 +12,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ArticleListVO(
 
+//    @PrimaryKey(autoGenerate = true)
+//    val articleId: Long=0,
+
+    @Embedded(prefix = "source_")
     @SerializedName("source")
     var source: SourceVO?=null,
 

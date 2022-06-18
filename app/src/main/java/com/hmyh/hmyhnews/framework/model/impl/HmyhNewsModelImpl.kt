@@ -1,13 +1,12 @@
 package com.hmyh.hmyhnews.framework.model.impl
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.hmyh.domain.NewsListVO
+import com.hmyh.hmyhnews.domain.NewsListVO
 import com.hmyh.hmyhnews.framework.model.BaseAppModel
 import com.hmyh.hmyhnews.framework.model.HmyhNewsModel
 import com.hmyh.hmyhnews.framework.util.API_KEY_DATA
 import com.hmyh.hmyhnews.framework.util.QUARY_DATA
+import com.hmyh.hmyhnews.framework.util.subscribeDBWithCompletable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -26,6 +25,7 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
             .subscribe({
                 it?.let { newListVO ->
                     onSuccess(newListVO)
+                    mDatabase.newListDao().insertNewData(newListVO).subscribeDBWithCompletable()
                 }
             }, {
 
