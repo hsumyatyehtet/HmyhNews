@@ -21,7 +21,7 @@ class NewsSearchViewHolder(
 
         Glide.with(itemView.context)
             .load(data.urlToImage)
-            .centerCrop()
+            .circleCrop()
             .into(binding.ivNewsSearchItem)
 
         binding.tvNewsSearchTitle.text = data.title ?: ""
