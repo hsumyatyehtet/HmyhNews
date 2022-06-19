@@ -22,6 +22,8 @@ import com.hmyh.hmyhnews.presentation.BaseFragment
 import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
 import com.kaopiz.kprogresshud.KProgressHUD
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewsListFragment : BaseFragment(){
 
@@ -45,11 +47,19 @@ class NewsListFragment : BaseFragment(){
         super.onViewCreated(view, savedInstanceState)
 
         setUpViewModel()
+        setCurrentDate()
         setUpRecyclerView()
         setUpListener()
 
         setUpOnUiReady()
         setUpDataObservation()
+    }
+
+    private fun setCurrentDate() {
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("EEE, MMM d")
+        val date = dateFormat.format(calendar.time)
+        binding.tvCurrentDate.text = date
     }
 
     private fun setUpOnUiReady() {
