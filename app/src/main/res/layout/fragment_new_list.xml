@@ -22,10 +22,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_baseline_search"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_card_medium_2"
             android:padding="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_card_medium_2"/>
+            android:src="@drawable/ic_baseline_search" />
 
     </RelativeLayout>
 
