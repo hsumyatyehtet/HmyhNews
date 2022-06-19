@@ -36,7 +36,7 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                     mDatabase.newListDao().insertNewData(newListVO).subscribeDBWithCompletable()
                 }
             }, {
-                it.message?.let { errorMessage->
+                it.message?.let { errorMessage ->
                     onFailure(errorMessage)
                 }
 
@@ -66,11 +66,11 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                 {
                     it?.let { newListVo ->
 
-                        if (newListVo.status == "ok"){
+                        if (newListVo.status == "ok") {
                             onSuccess(newListVo)
-                            mDatabase.newListDao().insertNewData(newListVo).subscribeDBWithCompletable()
-                        }
-                        else{
+                            mDatabase.newListDao().insertNewData(newListVo)
+                                .subscribeDBWithCompletable()
+                        } else {
                             onFailure("error")
                         }
 
@@ -78,7 +78,7 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                 },
                 {
                     it.message?.let { it1 ->
-                       onFailure(it1)
+                        onFailure(it1)
                     }
                 }
             )
@@ -101,12 +101,46 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
                     onSuccess(newListVO)
                 }
             }, {
-                it.message?.let { errorMessage->
+                it.message?.let { errorMessage ->
                     onFailure(errorMessage)
                 }
 
             })
     }
 
+    @SuppressLint("CheckResult")
+    override fun loadMoreSearchNewsList(
+        url: String,
+        page: Int,
+        pageSie: Int,
+        query: String,
+        onSuccess: (newsListVO: NewsListVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mApi.loadMoreNewList(url + GET_NEW_LIST, query, API_KEY_DATA, pageSie, page)
+            .subscribeOn(
+                Schedulers.io()
+            )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    it?.let { newListVo ->
+
+                        if (newListVo.status == "ok") {
+                            onSuccess(newListVo)
+
+                        } else {
+                            onFailure("error")
+                        }
+
+                    }
+                },
+                {
+                    it.message?.let { it1 ->
+                        onFailure(it1)
+                    }
+                }
+            )
+    }
 
 }

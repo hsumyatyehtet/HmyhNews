@@ -30,4 +30,13 @@ interface HmyhNewsModel {
         onFailure: (String)->Unit
     )
 
+    fun loadMoreSearchNewsList(
+        url: String,
+        page: Int,
+        pageSie: Int,
+        query: String,
+        onSuccess: (newsListVO: NewsListVO)->Unit,
+        onFailure: (String)->Unit
+    )
+
 }
