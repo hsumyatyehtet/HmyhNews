@@ -29,5 +29,6 @@ class NewsSearchViewHolder(
             .into(binding.ivNewsSearchItem)
 
         binding.tvNewsSearchTitle.text = data.title ?: ""
+        binding.tvNewsSearchSource.text = data.source?.name ?: ""
     }
 }

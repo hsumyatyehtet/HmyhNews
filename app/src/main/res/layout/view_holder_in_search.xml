@@ -21,4 +21,16 @@
         android:textSize="@dimen/text_regular"
         android:textColor="@color/black"/>
 
+    <TextView
+        android:id="@+id/tvNewsSearchSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_toEndOf="@+id/ivNewsSearchItem"
+        android:layout_below="@+id/tvNewsSearchTitle"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="CNN"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_small" />
+
 </RelativeLayout>
