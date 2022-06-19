@@ -4,6 +4,7 @@ import com.bumptech.glide.Glide
 import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.ViewHolderInNewListBinding
+import com.hmyh.hmyhnews.framework.getApiDateTime
 import com.hmyh.hmyhnews.presentation.BaseViewHolder
 
 class NewsListViewHolder(
@@ -29,6 +30,6 @@ class NewsListViewHolder(
 
         binding.tvNewsListSource.text = data.source?.name ?: ""
         binding.tvNewsListTitle.text = data.title ?: ""
-     //   binding.tvNewsListDescription.text = data.description ?: ""
+        binding.tvNewsListTime.text = getApiDateTime(data.publishAt.toString())
     }
 }

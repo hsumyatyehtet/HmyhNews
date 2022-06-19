@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentNewsDetailBinding
+import com.hmyh.hmyhnews.framework.getApiDateTime
 
 class NewsDetailFragment : Fragment() {
 
@@ -46,6 +47,8 @@ class NewsDetailFragment : Fragment() {
             .into(binding.ivNewsDetail)
 
         binding.tvNewsDetailContent.text = mArticle.description ?: ""
+
+        binding.tvNewsDetailTime.text = getApiDateTime(mArticle.publishAt.toString())
 
     }
 
