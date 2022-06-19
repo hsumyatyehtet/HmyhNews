@@ -25,6 +25,8 @@
     <color name="colorGrey900">#212121</color>
 
     <color name="colorTitleBlue">#4285F4</color>
+    <color name="colorBlueGrey50">#ECEFF1</color>
+    <color name="colorBlueGrey100">#CFD8Dc</color>
 
 
 </resources>

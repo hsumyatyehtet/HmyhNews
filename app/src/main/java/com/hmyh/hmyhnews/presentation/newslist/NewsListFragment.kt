@@ -60,6 +60,11 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
     }
 
     private fun setUpListener() {
+
+        binding.ivSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_newsListFragment_to_searchFragment)
+        }
+
         binding.rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -88,6 +93,7 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
                 }
             }
         })
+
     }
 
     private fun setUpDataObservation() {
@@ -108,13 +114,6 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
 
                 mNewsListAdapter.setNewData(mArticleList)
 
-//                news.articleList?.let { articleList ->
-//                    var mArticleList: MutableList<ArticleListVO> = mutableListOf()
-//                    mArticleList.addAll(articleList.distinctBy { article->
-//                        article.description
-//                    })
-//                    mNewsListAdapter.setNewData(mArticleList)
-//                }
             }
         })
 
