@@ -1,5 +1,6 @@
 package com.hmyh.hmyhnews.presentation.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hmyh.domain.ArticleListVO
@@ -10,12 +11,14 @@ import com.hmyh.hmyhnews.framework.util.BASE_URL
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class SearchListViewModel: ViewModel() {
+class SearchListViewModel: ViewModel(),NewsSearchAdapter.Delegate {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
     private val mArticleList = ArrayList<ArticleListVO>()
     private val mArticleListLiveData = MutableLiveData<List<ArticleListVO>>()
+
+    private val navigateArticleLiveData: MutableLiveData<ArticleListVO> = MutableLiveData()
 
     private var mErrorMessage: MutableLiveData<String> = MutableLiveData<String>()
     private var mErrorMessageMore: MutableLiveData<String> = MutableLiveData<String>()
@@ -100,6 +103,16 @@ class SearchListViewModel: ViewModel() {
 
     fun getShowOrHideProgress(): MutableLiveData<Int> {
         return progressLiveData
+    }
+
+    override fun onTapNewsSearchItem(article: ArticleListVO) {
+        GlobalScope.launch {
+            navigateArticleLiveData.postValue(article)
+        }
+    }
+
+    fun getNavigateSearchListToDetailData(): LiveData<ArticleListVO>{
+        return navigateArticleLiveData
     }
 
 }

@@ -5,14 +5,18 @@ import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.ViewHolderInSearchBinding
 import com.hmyh.hmyhnews.presentation.BaseViewHolder
+import com.hmyh.hmyhnews.presentation.newslist.NewsListAdapter
 
 class NewsSearchViewHolder(
-    private val binding: ViewHolderInSearchBinding
+    private val binding: ViewHolderInSearchBinding,
+    private val delegate: NewsSearchAdapter.Delegate
 ) : BaseViewHolder<ArticleListVO>(binding.root) {
 
     init {
         itemView.setOnClickListener {
-
+            mData?.let { articleListVO ->
+                delegate.onTapNewsSearchItem(articleListVO)
+            }
         }
     }
 

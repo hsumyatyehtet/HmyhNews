@@ -9,13 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hmyh.domain.ArticleListVO
+import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentSearchBinding
 import com.hmyh.hmyhnews.presentation.BaseFragment
+import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
 
 class SearchFragment : BaseFragment() {
@@ -162,10 +166,21 @@ class SearchFragment : BaseFragment() {
             }
         })
 
+        mViewModel.getNavigateSearchListToDetailData().observe(viewLifecycleOwner, Observer {article->
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                article?.let {
+                    findNavController().navigate(
+                        R.id.action_searchFragment_to_newsDetailFragment,
+                        getBundleNewsDetail(article)
+                    )
+                }
+            }
+        })
+
     }
 
     private fun setUpRecyclerView() {
-        mAdapter = NewsSearchAdapter()
+        mAdapter = NewsSearchAdapter(mViewModel)
         binding.rvNewsSearch.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvNewsSearch.adapter = mAdapter
