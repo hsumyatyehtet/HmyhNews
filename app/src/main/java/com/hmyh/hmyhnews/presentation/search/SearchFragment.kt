@@ -51,6 +51,14 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setUpListener() {
+
+        binding.swipeRefreshNewSearch.setOnRefreshListener {
+            binding.swipeRefreshNewSearch.isRefreshing = false
+            binding.etNewsSearch.text?.clear()
+            mViewModel.loadSearchNews("")
+        }
+
+
         val handler = Handler(Looper.getMainLooper())
         binding.etNewsSearch.addTextChangedListener(object : TextWatcher {
 
@@ -113,6 +121,8 @@ class SearchFragment : BaseFragment() {
 
         mViewModel.getSearchNewsList().observe(viewLifecycleOwner, Observer {
             it?.let { articleList->
+                binding.rvNewsSearch.visibility = View.VISIBLE
+                binding.llNoResultContainer.visibility = View.GONE
                 mAdapter.setNewData(articleList as MutableList<ArticleListVO>)
             }
         })

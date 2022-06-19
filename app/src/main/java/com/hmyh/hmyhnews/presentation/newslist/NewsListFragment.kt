@@ -62,6 +62,11 @@ class NewsListFragment : BaseFragment(){
 
     private fun setUpListener() {
 
+        binding.swipeRefreshNewList.setOnRefreshListener {
+            binding.swipeRefreshNewList.isRefreshing = false
+            setUpOnUiReady()
+        }
+
         binding.ivSearch.setOnClickListener {
             findNavController().navigate(R.id.action_newsListFragment_to_searchFragment)
         }

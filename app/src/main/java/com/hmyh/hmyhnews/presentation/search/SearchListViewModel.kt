@@ -32,6 +32,7 @@ class SearchListViewModel: ViewModel(),NewsSearchAdapter.Delegate {
     private var progressLiveData: MutableLiveData<Int> = MutableLiveData<Int>()
 
     fun loadSearchNews(searchWord: String){
+
         mModel.loadSearchNewsList(
             mPage,
             mPageSize,
@@ -46,6 +47,7 @@ class SearchListViewModel: ViewModel(),NewsSearchAdapter.Delegate {
                 }
 
                 it.articleList?.let { articleList->
+                    mArticleList.clear()
                     mArticleList.addAll(articleList)
                     mArticleListLiveData.value = mArticleList
                 }
@@ -65,9 +67,9 @@ class SearchListViewModel: ViewModel(),NewsSearchAdapter.Delegate {
             GlobalScope.launch {
                 progressLiveData.postValue(1)
             }
-            mModel.loadMoreNewList(
+            mModel.loadMoreSearchNewsList(
                 BASE_URL,
-                mPage, mPageSize,
+                mPage, mPageSize,searchWord,
                 onSuccess = { newList ->
 
                     newList.articleList?.let { articleList->

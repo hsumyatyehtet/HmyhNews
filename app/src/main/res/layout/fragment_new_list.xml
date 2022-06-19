@@ -37,14 +37,28 @@
         android:layout_marginTop="@dimen/margin_small"
         android:background="@color/colorGrey200" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNewsList"
+    <RelativeLayout
+        android:id="@+id/rlNewListContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewDividerToolbar"
-        android:layout_marginHorizontal="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:visibility="visible" />
+        android:layout_marginHorizontal="@dimen/margin_medium">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshNewList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNewsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:visibility="visible" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/llNoResultContainer"
