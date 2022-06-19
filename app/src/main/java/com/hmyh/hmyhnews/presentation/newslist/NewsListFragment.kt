@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,7 +23,7 @@ import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
 import com.kaopiz.kprogresshud.KProgressHUD
 
-class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
+class NewsListFragment : BaseFragment(){
 
     private lateinit var mViewModel: NewListViewModel
     private lateinit var binding: FragmentNewListBinding
@@ -162,20 +163,23 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.Delegate {
             }
         })
 
+        mViewModel.getNavigateSearchListToDetailData().observe(viewLifecycleOwner, Observer {article->
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                article?.let {article->
+                    findNavController().navigate(
+                        R.id.action_newsListFragment_to_newsDetailFragment,
+                        getBundleNewsDetail(article)
+                    )
+                }
+            }
+        })
+
     }
 
     private fun setUpRecyclerView() {
-        mNewsListAdapter = NewsListAdapter(this)
+        mNewsListAdapter = NewsListAdapter(mViewModel)
         binding.rvNewsList.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvNewsList.adapter = mNewsListAdapter
     }
-
-    override fun onTapNewsItem(author: com.hmyh.domain.ArticleListVO) {
-        findNavController().navigate(
-            R.id.action_newsListFragment_to_newsDetailFragment,
-            getBundleNewsDetail(author)
-        )
-    }
-
 }

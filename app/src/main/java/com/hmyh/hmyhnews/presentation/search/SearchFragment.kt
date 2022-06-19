@@ -168,7 +168,7 @@ class SearchFragment : BaseFragment() {
 
         mViewModel.getNavigateSearchListToDetailData().observe(viewLifecycleOwner, Observer {article->
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                article?.let {
+                article?.let {article->
                     findNavController().navigate(
                         R.id.action_searchFragment_to_newsDetailFragment,
                         getBundleNewsDetail(article)

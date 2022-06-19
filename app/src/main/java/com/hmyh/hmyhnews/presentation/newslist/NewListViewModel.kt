@@ -12,7 +12,7 @@ import com.hmyh.hmyhnews.framework.util.BASE_URL
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class NewListViewModel : ViewModel() {
+class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
@@ -20,6 +20,8 @@ class NewListViewModel : ViewModel() {
 
     private var mErrorMessage: MutableLiveData<String> = MutableLiveData<String>()
     private var mErrorMessageMore: MutableLiveData<String> = MutableLiveData<String>()
+
+    private val navigateArticleLiveData: MutableLiveData<ArticleListVO> = MutableLiveData()
 
     private var mTotalResult: Long? = null
     private var mPageSize: Int = 50
@@ -89,6 +91,16 @@ class NewListViewModel : ViewModel() {
 
     fun getShowOrHideProgress(): MutableLiveData<Int> {
         return progressLiveData
+    }
+
+    override fun onTapNewsItem(article: ArticleListVO) {
+        GlobalScope.launch {
+            navigateArticleLiveData.postValue(article)
+        }
+    }
+
+    fun getNavigateSearchListToDetailData(): LiveData<ArticleListVO>{
+        return navigateArticleLiveData
     }
 
 }
