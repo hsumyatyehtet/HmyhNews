@@ -52,6 +52,10 @@ class SearchFragment : BaseFragment() {
 
     private fun setUpListener() {
 
+        binding.ivBackSearch.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.swipeRefreshNewSearch.setOnRefreshListener {
             binding.swipeRefreshNewSearch.isRefreshing = false
             binding.etNewsSearch.text?.clear()
