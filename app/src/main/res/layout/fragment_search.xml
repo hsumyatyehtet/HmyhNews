@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlToolBarSearch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:layout_marginVertical="@dimen/margin_medium_2">
+
+        <ImageView
+            android:id="@+id/ivBackSearch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+        <RelativeLayout
+            android:id="@+id/rlSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/ivBackSearch"
+            android:background="@drawable/bg_search_bar">
+
+            <ImageView
+                android:id="@+id/ivNewsSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_medium_2"
+                android:src="@drawable/ic_baseline_search"
+                android:tint="@color/black"
+                tools:ignore="UseAppTint" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNewsSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_toEndOf="@+id/ivNewsSearch"
+                android:background="@null"
+                android:hint="Search"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_small" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlNewListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlToolBarSearch"
+        android:layout_marginHorizontal="@dimen/margin_medium">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshNewSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNewsSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:visibility="visible" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llNoResultContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/no_search_result" />
+
+        <TextView
+            android:id="@+id/tvErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingVertical="@dimen/margin_small"
+            android:text="No Results"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_heading_1x" />
+
+    </LinearLayout>
+
+</RelativeLayout>

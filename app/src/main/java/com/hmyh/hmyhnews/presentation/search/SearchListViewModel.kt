@@ -1,6 +1,5 @@
-package com.hmyh.hmyhnews.presentation.newslist
+package com.hmyh.hmyhnews.presentation.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,16 +11,17 @@ import com.hmyh.hmyhnews.framework.util.BASE_URL
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
+class SearchListViewModel: ViewModel(),NewsSearchAdapter.Delegate {
 
     private val mModel: HmyhNewsModel = HmyhNewsModelImpl
 
-    private var mNew: LiveData<List<NewsListVO>> = mModel.getNewVO()
+    private val mArticleList = ArrayList<ArticleListVO>()
+    private val mArticleListLiveData = MutableLiveData<List<ArticleListVO>>()
+
+    private val navigateArticleLiveData: MutableLiveData<ArticleListVO> = MutableLiveData()
 
     private var mErrorMessage: MutableLiveData<String> = MutableLiveData<String>()
     private var mErrorMessageMore: MutableLiveData<String> = MutableLiveData<String>()
-
-    private val navigateArticleLiveData: MutableLiveData<ArticleListVO> = MutableLiveData()
 
     private var mTotalResult: Long? = null
     private var mPageSize: Int = 50
@@ -31,10 +31,12 @@ class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
 
     private var progressLiveData: MutableLiveData<Int> = MutableLiveData<Int>()
 
-    fun onUiReady() {
-        mModel.loadNewsList(
+    fun loadSearchNews(searchWord: String){
+
+        mModel.loadSearchNewsList(
             mPage,
             mPageSize,
+            searchWord,
             onSuccess = {
                 it.totalResults?.let { totalResult ->
                     mTotalResult = totalResult
@@ -42,7 +44,12 @@ class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
                     mTotalResult?.let { result ->
                         mTotalPage = result / mPageSize.toLong()
                     }
+                }
 
+                it.articleList?.let { articleList->
+                    mArticleList.clear()
+                    mArticleList.addAll(articleList)
+                    mArticleListLiveData.value = mArticleList
                 }
             },
             onFailure = {
@@ -54,15 +61,22 @@ class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
         )
     }
 
-    fun loadMoreNewsList() {
+    fun loadMoreSearchNews(searchWord: String){
         if (mPage.toLong() < mTotalPage) {
             mPage++
             GlobalScope.launch {
                 progressLiveData.postValue(1)
             }
-            mModel.loadMoreNewList(BASE_URL,
-                mPage, mPageSize,
+            mModel.loadMoreSearchNewsList(
+                BASE_URL,
+                mPage, mPageSize,searchWord,
                 onSuccess = { newList ->
+
+                    newList.articleList?.let { articleList->
+                        mArticleList.addAll(articleList)
+                        mArticleListLiveData.value = mArticleList
+                    }
+
                     GlobalScope.launch {
                         progressLiveData.postValue(0)
                     }
@@ -77,12 +91,12 @@ class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
         }
     }
 
-    fun getNew(): LiveData<List<NewsListVO>> {
-        return mNew
+    fun getSearchNewsList(): MutableLiveData<List<ArticleListVO>>{
+        return mArticleListLiveData
     }
 
     fun getErrorMessage(): MutableLiveData<String>{
-       return mErrorMessage
+        return mErrorMessage
     }
 
     fun getErrorMessageMore(): MutableLiveData<String>{
@@ -93,7 +107,7 @@ class NewListViewModel : ViewModel(),NewsListAdapter.Delegate {
         return progressLiveData
     }
 
-    override fun onTapNewsItem(article: ArticleListVO) {
+    override fun onTapNewsSearchItem(article: ArticleListVO) {
         GlobalScope.launch {
             navigateArticleLiveData.postValue(article)
         }

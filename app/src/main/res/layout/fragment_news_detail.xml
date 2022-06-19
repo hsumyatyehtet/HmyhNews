@@ -9,6 +9,20 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp">
 
+        <RelativeLayout
+            android:id="@+id/rlToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/margin_medium"
+                android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/tvNewsDetailTitle"
             android:layout_width="wrap_content"
@@ -17,6 +31,7 @@
             android:layout_marginTop="@dimen/margin_medium_2"
             android:text="Jay-Z and Jack Dorsey "
             android:textColor="@color/colorPrimaryText"
+            android:layout_below="@+id/rlToolBar"
             android:textSize="@dimen/text_regular_3x"
             android:textStyle="bold" />
 
@@ -52,11 +67,11 @@
             android:id="@+id/tvNewsDetailTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/llNewsDetailAuthorContainer"
             android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_medium"
             android:text="Fri June 17, 2022"
             android:textColor="@color/colorSecondaryText"
-            android:layout_below="@+id/llNewsDetailAuthorContainer"
-            android:layout_marginTop="@dimen/margin_medium"
             android:textSize="@dimen/text_small" />
 
         <com.google.android.material.card.MaterialCardView

@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.hmyh.hmyhnews.R
 import com.hmyh.hmyhnews.databinding.FragmentNewsDetailBinding
+import com.hmyh.hmyhnews.framework.getApiDateTime
 
 class NewsDetailFragment : Fragment() {
 
@@ -29,7 +31,14 @@ class NewsDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpListener()
         setUpDataObservation()
+    }
+
+    private fun setUpListener() {
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -46,6 +55,8 @@ class NewsDetailFragment : Fragment() {
             .into(binding.ivNewsDetail)
 
         binding.tvNewsDetailContent.text = mArticle.description ?: ""
+
+        binding.tvNewsDetailTime.text = getApiDateTime(mArticle.publishAt.toString())
 
     }
 

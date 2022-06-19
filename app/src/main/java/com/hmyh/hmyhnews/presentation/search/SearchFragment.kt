@@ -1,14 +1,15 @@
-package com.hmyh.hmyhnews.presentation.newslist
+package com.hmyh.hmyhnews.presentation.search
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,21 +17,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hmyh.domain.ArticleListVO
 import com.hmyh.hmyhnews.R
-import com.hmyh.hmyhnews.databinding.FragmentNewListBinding
-import com.hmyh.hmyhnews.domain.NewsListVO
+import com.hmyh.hmyhnews.databinding.FragmentSearchBinding
 import com.hmyh.hmyhnews.presentation.BaseFragment
 import com.hmyh.news.framework.getBundleNewsDetail
 import com.hmyh.news.framework.getNewList
-import com.kaopiz.kprogresshud.KProgressHUD
-import java.text.SimpleDateFormat
-import java.util.*
 
-class NewsListFragment : BaseFragment(){
+class SearchFragment : BaseFragment() {
 
-    private lateinit var mViewModel: NewListViewModel
-    private lateinit var binding: FragmentNewListBinding
+    private lateinit var mViewModel: SearchListViewModel
+    private lateinit var binding: FragmentSearchBinding
 
-    private lateinit var mNewsListAdapter: NewsListAdapter
+    private lateinit var mAdapter: NewsSearchAdapter
 
     var isListEndReached = false
 
@@ -39,7 +36,7 @@ class NewsListFragment : BaseFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewListBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,49 +44,56 @@ class NewsListFragment : BaseFragment(){
         super.onViewCreated(view, savedInstanceState)
 
         setUpViewModel()
-        setCurrentDate()
         setUpRecyclerView()
         setUpListener()
 
-        setUpOnUiReady()
         setUpDataObservation()
-    }
-
-    private fun setCurrentDate() {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("EEE, MMM d")
-        val date = dateFormat.format(calendar.time)
-        binding.tvCurrentDate.text = date
-    }
-
-    private fun setUpOnUiReady() {
-        mViewModel.onUiReady()
-    }
-
-    private fun setUpViewModel() {
-        mViewModel = ViewModelProviders.of(this)[NewListViewModel::class.java]
     }
 
     private fun setUpListener() {
 
-        binding.swipeRefreshNewList.setOnRefreshListener {
-            binding.swipeRefreshNewList.isRefreshing = false
-            setUpOnUiReady()
+        binding.ivBackSearch.setOnClickListener {
+            findNavController().popBackStack()
         }
 
-        binding.ivSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_newsListFragment_to_searchFragment)
+        binding.swipeRefreshNewSearch.setOnRefreshListener {
+            binding.swipeRefreshNewSearch.isRefreshing = false
+            binding.etNewsSearch.text?.clear()
+            mViewModel.loadSearchNews("")
         }
 
-        binding.rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+        val handler = Handler(Looper.getMainLooper())
+        binding.etNewsSearch.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable?) {
+                handler.removeCallbacksAndMessages(null)
+                handler.postDelayed({
+                    s?.toString()?.let { searchWord ->
+                        onChangeTextAfterSecond(searchWord)
+                    }
+                }, 600)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        })
+    }
+
+    private fun onChangeTextAfterSecond(searchWord: String) {
+        mViewModel.loadSearchNews(searchWord)
+
+        binding.rvNewsSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val visibleItemCount = binding.rvNewsList.layoutManager!!.childCount
-                val totalItemCount = binding.rvNewsList.layoutManager!!.itemCount
+                val visibleItemCount = binding.rvNewsSearch.layoutManager!!.childCount
+                val totalItemCount = binding.rvNewsSearch.layoutManager!!.itemCount
                 val pastVisibleItems =
-                    (binding.rvNewsList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    (binding.rvNewsSearch.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
                 if (visibleItemCount + pastVisibleItems < totalItemCount) {
                     isListEndReached = false
@@ -105,31 +109,25 @@ class NewsListFragment : BaseFragment(){
                     && !isListEndReached
                 ) {
                     isListEndReached = true
-                    mViewModel.loadMoreNewsList()
+                    mViewModel.loadMoreSearchNews(searchWord)
+
                 }
             }
-        })
 
+        })
+    }
+
+    private fun setUpViewModel() {
+        mViewModel = ViewModelProviders.of(this)[SearchListViewModel::class.java]
     }
 
     private fun setUpDataObservation() {
 
-        mViewModel.getNew().observe(viewLifecycleOwner, Observer {
-            it?.let { news ->
-
-                var mNewsList: MutableList<NewsListVO> = mutableListOf()
-                var mArticleList: MutableList<ArticleListVO> = mutableListOf()
-
-                mNewsList.addAll(news.distinctBy { it.newsId })
-
-                mNewsList.forEach { news->
-                    news.articleList?.let { article->
-                        mArticleList.addAll(article.distinctBy { it.description })
-                    }
-                }
-
-                mNewsListAdapter.setNewData(mArticleList)
-
+        mViewModel.getSearchNewsList().observe(viewLifecycleOwner, Observer {
+            it?.let { articleList->
+                binding.rvNewsSearch.visibility = View.VISIBLE
+                binding.llNoResultContainer.visibility = View.GONE
+                mAdapter.setNewData(articleList as MutableList<ArticleListVO>)
             }
         })
 
@@ -148,17 +146,21 @@ class NewsListFragment : BaseFragment(){
 
                 var mErrorMessage: String = ""
 
-                if (errorMessage.contains("HTTP 429") || errorMessage.contains("HTTP 426")) {
-                    mErrorMessage = "rateLimited"
+                if (errorMessage.contains("HTTP 429") || errorMessage.contains("HTTP 426")
+                    || errorMessage.contains("HTTP 400")) {
+                    mErrorMessage = "No Rsults"
+                }
+                else if (errorMessage.contains("HTTP 400")){
+                    mErrorMessage = "No Results"
                 }
 
                 if (mErrorMessage!=""){
-                    binding.rvNewsList.visibility = View.GONE
+                    binding.rvNewsSearch.visibility = View.GONE
                     binding.llNoResultContainer.visibility = View.VISIBLE
                     binding.tvErrorMessage.text = mErrorMessage
                 }
                 else{
-                    binding.rvNewsList.visibility = View.VISIBLE
+                    binding.rvNewsSearch.visibility = View.VISIBLE
                     binding.llNoResultContainer.visibility = View.GONE
                 }
 
@@ -173,7 +175,7 @@ class NewsListFragment : BaseFragment(){
                 }
 
                 if (errorMessageMore !=""){
-                    Toast.makeText(context,mErrorMessageMore,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,mErrorMessageMore, Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -182,7 +184,7 @@ class NewsListFragment : BaseFragment(){
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 article?.let {article->
                     findNavController().navigate(
-                        R.id.action_newsListFragment_to_newsDetailFragment,
+                        R.id.action_searchFragment_to_newsDetailFragment,
                         getBundleNewsDetail(article)
                     )
                 }
@@ -192,9 +194,10 @@ class NewsListFragment : BaseFragment(){
     }
 
     private fun setUpRecyclerView() {
-        mNewsListAdapter = NewsListAdapter(mViewModel)
-        binding.rvNewsList.layoutManager =
+        mAdapter = NewsSearchAdapter(mViewModel)
+        binding.rvNewsSearch.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.rvNewsList.adapter = mNewsListAdapter
+        binding.rvNewsSearch.adapter = mAdapter
     }
+
 }

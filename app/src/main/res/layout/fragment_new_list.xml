@@ -15,7 +15,17 @@
             android:layout_centerInParent="true"
             android:text="News"
             android:textColor="@color/colorTitleBlue"
-            android:textSize="@dimen/text_heading_1x"/>
+            android:textSize="@dimen/text_heading_1x" />
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_card_medium_2"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_baseline_search" />
 
     </RelativeLayout>
 
@@ -24,40 +34,67 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/rlToolBar"
-        android:background="@color/colorGrey200"
-        android:layout_marginTop="@dimen/margin_small"/>
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@color/colorGrey200" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNewsList"
+    <TextView
+        android:id="@+id/tvCurrentDate"
+        android:layout_below="@+id/viewDividerToolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="date"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_regular_2x"
+        android:textStyle="normal" />
+
+    <RelativeLayout
+        android:id="@+id/rlNewListContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewDividerToolbar"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginHorizontal="@dimen/margin_medium"
-        android:visibility="visible"/>
+        android:layout_below="@+id/tvCurrentDate"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginHorizontal="@dimen/margin_medium">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshNewList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNewsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:visibility="visible" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/llNoResultContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/no_result"/>
+            android:src="@drawable/no_result" />
 
         <TextView
             android:id="@+id/tvErrorMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Results"
             android:layout_gravity="center_horizontal"
-            android:textSize="@dimen/text_heading_1x"
+            android:paddingVertical="@dimen/margin_small"
+            android:text="No Results"
             android:textColor="@color/colorSecondaryText"
-            android:paddingVertical="@dimen/margin_small"/>
+            android:textSize="@dimen/text_heading_1x" />
 
     </LinearLayout>
 
