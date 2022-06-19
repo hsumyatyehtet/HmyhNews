@@ -84,5 +84,29 @@ object HmyhNewsModelImpl : BaseAppModel(), HmyhNewsModel {
             )
     }
 
+    @SuppressLint("CheckResult")
+    override fun loadSearchNewsList(
+        page: Int,
+        pageSie: Int,
+        query: String,
+        onSuccess: (newsListVO: NewsListVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mApi.loadNewsList(query, API_KEY_DATA, pageSie, page).subscribeOn(
+            Schedulers.io()
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it?.let { newListVO ->
+                    onSuccess(newListVO)
+                }
+            }, {
+                it.message?.let { errorMessage->
+                    onFailure(errorMessage)
+                }
+
+            })
+    }
+
 
 }

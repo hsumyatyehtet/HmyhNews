@@ -22,4 +22,12 @@ interface HmyhNewsModel {
         onFailure: (String)->Unit
     )
 
+    fun loadSearchNewsList(
+        page: Int,
+        pageSie: Int,
+        query: String,
+        onSuccess: (newsListVO: NewsListVO)->Unit,
+        onFailure: (String)->Unit
+    )
+
 }
