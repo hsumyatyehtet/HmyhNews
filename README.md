@@ -1,6 +1,12 @@
 # HmyhNews
 News project show news list and detail
 
+### App Features
+
+ * News list show with paging. One page get 50 items.
+ * Detail screen show news data.
+ * Search screen can search news.
+
 ### Technical Features
 
 * Android for App Development
@@ -13,6 +19,9 @@ News project show news list and detail
 * Icon resources from Flaticon
 * Navigation architecture
 * Single activity
+
+
+<img width="1080" alt="NEWS" src="https://user-images.githubusercontent.com/53394999/183258625-84a994aa-1103-4f50-82ab-8b32018275b4.png">
 
 ![Screenshot_2022-07-27-10-30-05-788_com hmyh hmyhnews](https://user-images.githubusercontent.com/53394999/181159295-2489f303-1273-4193-abff-2f17968703f2.jpg)
 
